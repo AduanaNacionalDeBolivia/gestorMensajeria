@@ -27,7 +27,7 @@ public class messageTest {
    @Test
    public void sendMessages() throws Exception {
 	   MessageSender ms = new MessageSender();
-	   ms.sendMessages("{\"sender\" : \"Fabian Picon\",\"body\" : \"Esto es una prueba\",\"time\" : 100000,\"status\" : \"readed\",\"received\" : \"2014-01-23 17:19:57\",\"type\" : \"email\",\"recipient\" : \"Proyecto\"}");
+	   ms.sendMessages("{\"sender\" : \"Fabian Picon\",\"body\" : \"Esto es una prueba\",\"time\" : 100000,\"status\" : \"ok\",\"received\" : \"2014-01-23 17:19:57\",\"type\" : \"email\",\"recipient\" : \"Proyecto\"}");
    }
    
 //   @Test

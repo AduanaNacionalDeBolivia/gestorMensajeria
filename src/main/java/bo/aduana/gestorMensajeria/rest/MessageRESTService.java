@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jms.JMSException;
 import javax.management.Query;
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolation;
@@ -33,6 +34,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,6 +46,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import bo.aduana.gestorMensajeria.jms.MessageSender;
+import bo.aduana.gestorMensajeria.jms.UserActionConsumer;
 import bo.aduana.gestorMensajeria.model.Message;
 import bo.aduana.gestorMensajeria.service.MessageService;
 
@@ -68,6 +71,32 @@ public class MessageRESTService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> listMessages(@QueryParam("recipient") String recipient) {
     	return ms.findMessages(recipient);
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/populate")
+    public void populate() {
+    	UserActionConsumer uac = new UserActionConsumer();
+	 	   try {
+			uac.processMessages();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/add")
+    public void addMessage(String message) {
+    	  MessageSender ms = new MessageSender();
+	   	   try {
+			ms.sendMessages(message);
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 //    @GET
